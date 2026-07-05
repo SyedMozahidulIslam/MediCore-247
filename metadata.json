@@ -1,0 +1,6 @@
+{
+  "name": "MediCore 247",
+  "description": "One Platform. Every Care. 24/7 On, Always Smart Healthcare around the Clock. Enterprise Hospital ERP & Healthcare Intelligence System.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
