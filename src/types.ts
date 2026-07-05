@@ -220,3 +220,38 @@ export interface CharityVerification {
   approvedAidType: "100% Free Medicine & Consultation" | "Free Surgery & ICU Support" | "Partial Hospital Bed Subsidy";
   donationFundSponsor: string;
 }
+
+export interface RepairRecord {
+  id: string;
+  date: string;
+  issue: string;
+  solution?: string;
+  cost: number;
+  technician: string;
+  status: "Resolved" | "Pending Parts" | "In Progress";
+}
+
+export interface BiomedicalAsset {
+  id: string;
+  name: string;
+  type: "MRI" | "CT Scan" | "X-Ray" | "Ventilator" | "ECG Machine" | "Monitor" | "Infusion Pump" | "Surgical Equipment";
+  status: "Active" | "In Use" | "Maintenance" | "Out of Calibration" | "Repairing" | "Decommissioned";
+  department: Department;
+  location: string;
+  serialNumber: string;
+  manufacturer: string;
+  purchaseDate: string;
+  price: number; // in BDT
+  warrantyExpiry: string;
+  warrantyProvider: string;
+  lastMaintenanceDate: string;
+  nextMaintenanceDate: string;
+  maintenanceFrequency: "Monthly" | "Quarterly" | "Bi-annually" | "Annually";
+  lastCalibrationDate: string;
+  nextCalibrationDate: string;
+  calibrationFrequency: "Monthly" | "Quarterly" | "Bi-annually" | "Annually";
+  usageHours: number;
+  downtimePercentage: number; // e.g. 1.5%
+  assignedTo?: string; // e.g., Patient Name, OT Room Number, or Doctor ID
+  repairHistory: RepairRecord[];
+}

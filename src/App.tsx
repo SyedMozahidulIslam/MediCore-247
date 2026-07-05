@@ -8,7 +8,8 @@ import { motion } from "motion/react";
 import { 
   Activity, Users, Bed, CreditCard, Ambulance, HeartPulse, 
   ShieldAlert, CheckCircle, Pill, Shield, Award, Landmark, 
-  Map, ClipboardList, HelpCircle, Bell, LogOut, ChevronRight, Menu, X
+  Map, ClipboardList, HelpCircle, Bell, LogOut, ChevronRight, Menu, X,
+  Wrench
 } from "lucide-react";
 
 // Shared and module components
@@ -24,14 +25,16 @@ import { CharityCare } from "./components/modules/CharityCare";
 import { PatientPortal } from "./components/modules/PatientPortal";
 import { HRModule } from "./components/modules/HRModule";
 import { ReportGenerator } from "./components/modules/ReportGenerator";
+import { BiomedicalEquipment } from "./components/modules/BiomedicalEquipment";
 
 // Mock Databases
 import { 
   mockPatients, mockBeds, mockAmbulances, mockMedicines, 
   mockOTSessions, mockCharityVerifications 
 } from "./data/mockDatabase";
+import { mockBiomedicalAssets } from "./data/biomedicalAssetsData";
 import { employeesData } from "./data/employees";
-import { Patient, Bed as BedType, Ambulance as AmbulanceType, Medicine, OperationTheatreSession, CharityVerification, Employee, UserRole } from "./types";
+import { Patient, Bed as BedType, Ambulance as AmbulanceType, Medicine, OperationTheatreSession, CharityVerification, Employee, UserRole, BiomedicalAsset, Department } from "./types";
 
 export default function App() {
   const [activeTab, setActiveTab] = useState("Dashboard Overview");
@@ -45,6 +48,7 @@ export default function App() {
   const [otSessions, setOtSessions] = useState<OperationTheatreSession[]>(mockOTSessions);
   const [charityCases, setCharityCases] = useState<CharityVerification[]>(mockCharityVerifications);
   const [employees, setEmployees] = useState<Employee[]>(employeesData);
+  const [biomedicalAssets, setBiomedicalAssets] = useState<BiomedicalAsset[]>(mockBiomedicalAssets);
 
   // Actions Audit Logs state
   const [auditLogs, setAuditLogs] = useState<{ id: string; action: string; user: string; time: string }[]>([
@@ -102,6 +106,16 @@ export default function App() {
     addLog(`Scheduled operating theatre surgery room booking: ${newSession.surgeryName}`);
   };
 
+  const handleAddBiomedicalAsset = (newAsset: BiomedicalAsset) => {
+    setBiomedicalAssets(prev => [newAsset, ...prev]);
+    addLog(`Registered new biomedical asset: ${newAsset.name} [${newAsset.id}]`);
+  };
+
+  const handleUpdateBiomedicalAsset = (updated: BiomedicalAsset) => {
+    setBiomedicalAssets(prev => prev.map(a => a.id === updated.id ? updated : a));
+    addLog(`Updated biomedical asset ${updated.id} status to: ${updated.status}`);
+  };
+
   // Define tab navigation elements
   const tabItems = [
     { name: "Dashboard Overview", icon: <Activity className="w-4 h-4" /> },
@@ -111,6 +125,7 @@ export default function App() {
     { name: "Ambulance Command Center", icon: <Ambulance className="w-4 h-4" /> },
     { name: "Pharmacy Intelligence", icon: <Pill className="w-4 h-4" /> },
     { name: "OT Tracker Complex", icon: <Shield className="w-4 h-4" /> },
+    { name: "Biomedical Equipment", icon: <Wrench className="w-4 h-4" /> },
     { name: "Charity Care Hub", icon: <Landmark className="w-4 h-4" /> },
     { name: "Patient Records Core", icon: <HeartPulse className="w-4 h-4" /> },
     { name: "Interactive HR Directory", icon: <Award className="w-4 h-4" /> },
@@ -271,6 +286,15 @@ export default function App() {
 
           {activeTab === "OT Tracker Complex" && (
             <OTTracker otSessions={otSessions} onAddSession={handleAddOTSession} />
+          )}
+
+          {activeTab === "Biomedical Equipment" && (
+            <BiomedicalEquipment 
+              assets={biomedicalAssets}
+              onAddAsset={handleAddBiomedicalAsset}
+              onUpdateAsset={handleUpdateBiomedicalAsset}
+              departments={Object.values(Department)}
+            />
           )}
 
           {activeTab === "Charity Care Hub" && (
