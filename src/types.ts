@@ -107,11 +107,34 @@ export interface Patient {
 export interface Bed {
   id: string;
   number: string;
-  type: "ICU" | "OT" | "General Ward" | "Semi-Private" | "Emergency";
+  type: "ICU" | "OT" | "General Ward" | "Semi-Private" | "Emergency" | "VIP Cabin" | "Isolation";
   floor: string;
   building: string;
   status: "Available" | "Occupied" | "Maintenance" | "Reserved";
   patientId?: string;
+  cleaningStatus?: "Clean" | "Dirty" | "Cleaning";
+  predictedDischargeDate?: string;
+  dischargeLikelihood?: "High" | "Medium" | "Low";
+}
+
+export interface PatientMovement {
+  id: string;
+  patientId: string;
+  patientName: string;
+  fromBed?: string;
+  toBed: string;
+  timestamp: string;
+  reason: string;
+}
+
+export interface WaitingListEntry {
+  id: string;
+  patientId: string;
+  patientName: string;
+  requestDate: string;
+  requiredBedType: "ICU" | "OT" | "General Ward" | "Semi-Private" | "Emergency" | "VIP Cabin" | "Isolation";
+  urgency: "Routine" | "Urgent" | "Critical";
+  reason: string;
 }
 
 export interface Appointment {
@@ -254,4 +277,67 @@ export interface BiomedicalAsset {
   downtimePercentage: number; // e.g. 1.5%
   assignedTo?: string; // e.g., Patient Name, OT Room Number, or Doctor ID
   repairHistory: RepairRecord[];
+}
+
+export type InventoryCategory =
+  | "Medical Supplies"
+  | "Surgical Instruments"
+  | "PPE"
+  | "Oxygen Cylinders"
+  | "Laboratory Consumables"
+  | "Office Supplies"
+  | "Linens"
+  | "Food Inventory"
+  | "Cleaning Materials";
+
+export interface InventoryItem {
+  id: string;
+  name: string;
+  sku: string; // QR / Barcode string representation
+  category: InventoryCategory;
+  quantity: number;
+  unit: string;
+  minStockLevel: number;
+  supplierId: string;
+  expiryDate?: string;
+  location: string;
+  lastRestocked: string;
+  pricePerUnit: number; // in BDT
+  forecastedDemand?: number; // projected stock required next month
+}
+
+export interface Supplier {
+  id: string;
+  name: string;
+  contactPerson: string;
+  phone: string;
+  email: string;
+  address: string;
+  status: "Active" | "Inactive";
+}
+
+export interface PurchaseRequest {
+  id: string;
+  itemId: string;
+  itemName: string;
+  quantityRequested: number;
+  estimatedCost: number;
+  supplierId: string;
+  supplierName: string;
+  requestedBy: string;
+  requestDate: string;
+  status: "Pending Approval" | "Approved" | "Ordered" | "Delivered" | "Rejected";
+  urgency: "Routine" | "Urgent" | "Emergency";
+}
+
+export interface DepartmentTransfer {
+  id: string;
+  itemId: string;
+  itemName: string;
+  fromDepartment: string;
+  toDepartment: string;
+  quantity: number;
+  requestedBy: string;
+  status: "Pending" | "Approved" | "Dispatched" | "Completed" | "Rejected";
+  date: string;
 }

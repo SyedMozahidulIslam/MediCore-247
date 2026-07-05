@@ -14,20 +14,26 @@ import { employeesData } from "./employees";
 const doctors = employeesData.filter(e => e.role === UserRole.DOCTOR);
 
 export const mockBeds: Bed[] = [
-  { id: "BED-ICU-101", number: "ICU-101", type: "ICU", floor: "3rd Floor", building: "Building B", status: "Occupied", patientId: "PAT-001" },
-  { id: "BED-ICU-102", number: "ICU-102", type: "ICU", floor: "3rd Floor", building: "Building B", status: "Occupied", patientId: "PAT-002" },
-  { id: "BED-ICU-103", number: "ICU-103", type: "ICU", floor: "3rd Floor", building: "Building B", status: "Available" },
-  { id: "BED-ICU-104", number: "ICU-104", type: "ICU", floor: "3rd Floor", building: "Building B", status: "Maintenance" },
-  { id: "BED-GW-201", number: "GW-201", type: "General Ward", floor: "2nd Floor", building: "Building C", status: "Occupied", patientId: "PAT-003" },
-  { id: "BED-GW-202", number: "GW-202", type: "General Ward", floor: "2nd Floor", building: "Building C", status: "Occupied", patientId: "PAT-004" },
-  { id: "BED-GW-203", number: "GW-203", type: "General Ward", floor: "2nd Floor", building: "Building C", status: "Available" },
-  { id: "BED-GW-204", number: "GW-204", type: "General Ward", floor: "2nd Floor", building: "Building C", status: "Available" },
-  { id: "BED-GW-205", number: "GW-205", type: "General Ward", floor: "2nd Floor", building: "Building C", status: "Available" },
-  { id: "BED-SP-301", number: "SP-301", type: "Semi-Private", floor: "2nd Floor", building: "Building F", status: "Occupied", patientId: "PAT-005" },
-  { id: "BED-SP-302", number: "SP-302", type: "Semi-Private", floor: "2nd Floor", building: "Building F", status: "Available" },
-  { id: "BED-EM-001", number: "ER-101", type: "Emergency", floor: "Ground Floor", building: "Building B", status: "Occupied", patientId: "PAT-006" },
-  { id: "BED-EM-002", number: "ER-102", type: "Emergency", floor: "Ground Floor", building: "Building B", status: "Occupied", patientId: "PAT-007" },
-  { id: "BED-EM-003", number: "ER-103", type: "Emergency", floor: "Ground Floor", building: "Building B", status: "Available" }
+  { id: "BED-ICU-101", number: "ICU-101", type: "ICU", floor: "3rd Floor", building: "Building B", status: "Occupied", patientId: "PAT-001", cleaningStatus: "Clean", predictedDischargeDate: "2026-07-06", dischargeLikelihood: "Medium" },
+  { id: "BED-ICU-102", number: "ICU-102", type: "ICU", floor: "3rd Floor", building: "Building B", status: "Occupied", patientId: "PAT-002", cleaningStatus: "Clean", predictedDischargeDate: "2026-07-08", dischargeLikelihood: "Low" },
+  { id: "BED-ICU-103", number: "ICU-103", type: "ICU", floor: "3rd Floor", building: "Building B", status: "Available", cleaningStatus: "Clean" },
+  { id: "BED-ICU-104", number: "ICU-104", type: "ICU", floor: "3rd Floor", building: "Building B", status: "Maintenance", cleaningStatus: "Dirty" },
+  { id: "BED-GW-201", number: "GW-201", type: "General Ward", floor: "2nd Floor", building: "Building C", status: "Occupied", patientId: "PAT-003", cleaningStatus: "Clean", predictedDischargeDate: "2026-07-05", dischargeLikelihood: "High" },
+  { id: "BED-GW-202", number: "GW-202", type: "General Ward", floor: "2nd Floor", building: "Building C", status: "Occupied", patientId: "PAT-004", cleaningStatus: "Clean", predictedDischargeDate: "2026-07-07", dischargeLikelihood: "Medium" },
+  { id: "BED-GW-203", number: "GW-203", type: "General Ward", floor: "2nd Floor", building: "Building C", status: "Available", cleaningStatus: "Dirty" },
+  { id: "BED-GW-204", number: "GW-204", type: "General Ward", floor: "2nd Floor", building: "Building C", status: "Available", cleaningStatus: "Clean" },
+  { id: "BED-GW-205", number: "GW-205", type: "General Ward", floor: "2nd Floor", building: "Building C", status: "Available", cleaningStatus: "Cleaning" },
+  { id: "BED-SP-301", number: "SP-301", type: "Semi-Private", floor: "2nd Floor", building: "Building F", status: "Occupied", patientId: "PAT-005", cleaningStatus: "Clean", predictedDischargeDate: "2026-07-09", dischargeLikelihood: "Low" },
+  { id: "BED-SP-302", number: "SP-302", type: "Semi-Private", floor: "2nd Floor", building: "Building F", status: "Available", cleaningStatus: "Clean" },
+  { id: "BED-EM-001", number: "ER-101", type: "Emergency", floor: "Ground Floor", building: "Building B", status: "Occupied", patientId: "PAT-006", cleaningStatus: "Clean", predictedDischargeDate: "2026-07-05", dischargeLikelihood: "High" },
+  { id: "BED-EM-002", number: "ER-102", type: "Emergency", floor: "Ground Floor", building: "Building B", status: "Occupied", patientId: "PAT-007", cleaningStatus: "Clean", predictedDischargeDate: "2026-07-06", dischargeLikelihood: "High" },
+  { id: "BED-EM-003", number: "ER-103", type: "Emergency", floor: "Ground Floor", building: "Building B", status: "Available", cleaningStatus: "Clean" },
+  // VIP Cabins
+  { id: "BED-VIP-401", number: "VIP-401", type: "VIP Cabin", floor: "4th Floor", building: "Building A", status: "Available", cleaningStatus: "Clean" },
+  { id: "BED-VIP-402", number: "VIP-402", type: "VIP Cabin", floor: "4th Floor", building: "Building A", status: "Available", cleaningStatus: "Cleaning" },
+  // Isolation Rooms
+  { id: "BED-ISO-501", number: "ISO-501", type: "Isolation", floor: "5th Floor", building: "Building B", status: "Available", cleaningStatus: "Clean" },
+  { id: "BED-ISO-502", number: "ISO-502", type: "Isolation", floor: "5th Floor", building: "Building B", status: "Available", cleaningStatus: "Dirty" }
 ];
 
 export const mockPatients: Patient[] = [

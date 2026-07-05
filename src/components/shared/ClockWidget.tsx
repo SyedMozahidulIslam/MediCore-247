@@ -70,7 +70,7 @@ export const ClockWidget: React.FC = () => {
   const nextPrayer = getNextPrayer();
 
   return (
-    <div className="bg-gradient-to-br from-teal-900 to-emerald-950 text-white rounded-2xl p-5 shadow-lg border border-teal-800">
+    <div className="bg-gradient-to-br from-teal-950/70 to-emerald-950/70 backdrop-blur-md text-white rounded-3xl p-5 shadow-lg border border-white/10">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <Clock className="w-5 h-5 text-emerald-400 animate-pulse" />

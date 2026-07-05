@@ -898,8 +898,8 @@ export const BiomedicalEquipment: React.FC<BiomedicalEquipmentProps> = ({
 
       {/* 4. Registration Modal/Drawer */}
       {isRegistering && (
-        <div className="fixed inset-0 z-50 bg-slate-950/40 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl border border-white/50 max-w-lg w-full p-6 shadow-2xl space-y-4 animate-in fade-in zoom-in-95 duration-150">
+        <div className="fixed inset-0 z-50 bg-slate-950/40 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="bg-white/75 backdrop-blur-md rounded-3xl border border-white/60 max-w-lg w-full p-6 shadow-2xl space-y-4 animate-in fade-in zoom-in-95 duration-150">
             <div className="flex justify-between items-center border-b border-slate-100 pb-3">
               <div>
                 <h4 className="text-sm font-extrabold text-slate-800 flex items-center gap-2">

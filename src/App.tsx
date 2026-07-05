@@ -9,11 +9,12 @@ import {
   Activity, Users, Bed, CreditCard, Ambulance, HeartPulse, 
   ShieldAlert, CheckCircle, Pill, Shield, Award, Landmark, 
   Map, ClipboardList, HelpCircle, Bell, LogOut, ChevronRight, Menu, X,
-  Wrench
+  Wrench, Boxes, Radio
 } from "lucide-react";
 
 // Shared and module components
 import { ClockWidget } from "./components/shared/ClockWidget";
+import { HospitalDigitalCommandCenter } from "./components/modules/HospitalDigitalCommandCenter";
 import { DashboardOverview } from "./components/modules/DashboardOverview";
 import { DoctorExplorer } from "./components/modules/DoctorExplorer";
 import { DoctorAvailability } from "./components/modules/DoctorAvailability";
@@ -26,6 +27,9 @@ import { PatientPortal } from "./components/modules/PatientPortal";
 import { HRModule } from "./components/modules/HRModule";
 import { ReportGenerator } from "./components/modules/ReportGenerator";
 import { BiomedicalEquipment } from "./components/modules/BiomedicalEquipment";
+import { PatientFlowManager } from "./components/modules/PatientFlowManager";
+import { CentralStoreInventory } from "./components/modules/CentralStoreInventory";
+
 
 // Mock Databases
 import { 
@@ -37,7 +41,7 @@ import { employeesData } from "./data/employees";
 import { Patient, Bed as BedType, Ambulance as AmbulanceType, Medicine, OperationTheatreSession, CharityVerification, Employee, UserRole, BiomedicalAsset, Department } from "./types";
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState("Dashboard Overview");
+  const [activeTab, setActiveTab] = useState("Digital Command Center");
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   // States for live interconnected databases
@@ -116,9 +120,21 @@ export default function App() {
     addLog(`Updated biomedical asset ${updated.id} status to: ${updated.status}`);
   };
 
+  const handleUpdateBeds = (updatedBeds: BedType[]) => {
+    setBeds(updatedBeds);
+    addLog(`Updated global bed census mapping`);
+  };
+
+  const handleUpdatePatients = (updatedPatients: Patient[]) => {
+    setPatients(updatedPatients);
+    addLog(`Updated active patient record mappings`);
+  };
+
   // Define tab navigation elements
   const tabItems = [
+    { name: "Digital Command Center", icon: <Radio className="w-4 h-4" /> },
     { name: "Dashboard Overview", icon: <Activity className="w-4 h-4" /> },
+    { name: "Smart Bed & Patient Flow", icon: <Bed className="w-4 h-4" /> },
     { name: "Doctor Explorer", icon: <Users className="w-4 h-4" /> },
     { name: "Doctor Availability", icon: <CalendarRange className="w-4 h-4" /> },
     { name: "Hospital Map", icon: <Map className="w-4 h-4" /> },
@@ -126,6 +142,7 @@ export default function App() {
     { name: "Pharmacy Intelligence", icon: <Pill className="w-4 h-4" /> },
     { name: "OT Tracker Complex", icon: <Shield className="w-4 h-4" /> },
     { name: "Biomedical Equipment", icon: <Wrench className="w-4 h-4" /> },
+    { name: "Central Store & Inventory", icon: <Boxes className="w-4 h-4" /> },
     { name: "Charity Care Hub", icon: <Landmark className="w-4 h-4" /> },
     { name: "Patient Records Core", icon: <HeartPulse className="w-4 h-4" /> },
     { name: "Interactive HR Directory", icon: <Award className="w-4 h-4" /> },
@@ -142,13 +159,13 @@ export default function App() {
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-emerald-100 flex overflow-hidden font-sans text-slate-800">
       {/* Sidebar Navigation */}
       <div 
-        className={`bg-white/30 backdrop-blur-xl text-slate-700 flex flex-col justify-between border-r border-white/40 transition-all duration-300 z-30 ${
+        className={`bg-white/30 backdrop-blur-md text-slate-700 flex flex-col justify-between border-r border-white/40 transition-all duration-300 z-30 ${
           sidebarOpen ? "w-64 min-w-[256px]" : "w-20 min-w-[80px]"
         }`}
       >
         <div>
           {/* Main App branding */}
-          <div className="p-5 border-b border-white/40 flex items-center justify-between">
+          <div className="p-5 border-b border-white/40 flex items-center justify-between bg-white/10 backdrop-blur-md">
             <div className="flex items-center gap-2.5 overflow-hidden">
               <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-400 text-slate-900 flex items-center justify-center font-black text-sm shadow-sm">
                 M2
@@ -253,6 +270,23 @@ export default function App() {
 
         {/* Dynamic Inner Tab Content */}
         <main className="p-6 flex-1 space-y-6">
+          {activeTab === "Digital Command Center" && (
+            <HospitalDigitalCommandCenter 
+              patients={patients} 
+              setPatients={setPatients} 
+              beds={beds} 
+              setBeds={setBeds} 
+              ambulances={ambulances} 
+              setAmbulances={setAmbulances} 
+              otSessions={otSessions} 
+              setOtSessions={setOtSessions} 
+              employees={employees} 
+              biomedicalAssets={biomedicalAssets} 
+              setBiomedicalAssets={setBiomedicalAssets} 
+              addLog={addLog} 
+            />
+          )}
+
           {activeTab === "Dashboard Overview" && (
             <DashboardOverview 
               patients={patients} 
@@ -299,6 +333,20 @@ export default function App() {
 
           {activeTab === "Charity Care Hub" && (
             <CharityCare charityCases={charityCases} patients={patients} onUpdateCharityStatus={handleUpdateCharityStatus} />
+          )}
+
+          {activeTab === "Central Store & Inventory" && (
+            <CentralStoreInventory addLog={addLog} />
+          )}
+
+          {activeTab === "Smart Bed & Patient Flow" && (
+            <PatientFlowManager 
+              patients={patients}
+              beds={beds}
+              onUpdateBeds={handleUpdateBeds}
+              onUpdatePatients={handleUpdatePatients}
+              addLog={addLog}
+            />
           )}
 
           {activeTab === "Patient Records Core" && (
