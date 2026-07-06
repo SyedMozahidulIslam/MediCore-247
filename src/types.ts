@@ -96,7 +96,7 @@ export interface Patient {
     notes: string;
   }[];
   vitals?: {
-    bp: string; // e.g., 120/80
+    bp: string;
     temp: string; // e.g., 98.6 F
     pulse: string; // e.g., 72 bpm
     spO2: string; // e.g., 98%
